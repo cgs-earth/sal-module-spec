@@ -92,7 +92,7 @@ salmodule:input a rdf:Property ;
 salmodule:output a rdf:Property ;
     rdfs:label "JSON(-LD) Node Output"@en ;
     rdfs:comment "A property representing the required SHACL sh:NodeShape(s) of the newline delimited JSON node output stream to stdout from a salmodule:Task subclass instance within a SAL Module containerized application."@en ;
-    skos:note "The output stream must produce newline delimited JSON nodes that conform to the specified sh:NodeShape(s) when injected with the @context object defined by the salmodule's ontology."@en ;
+    skos:note "The output stream must produce newline delimited JSON nodes that conform to the specified sh:NodeShape(s) when injected with the JSON-LD@context object defined within the salmodule's ontology."@en ;
     rdfs:range sh:NodeShape .
 
 salmodule:self a rdf:Property ;
