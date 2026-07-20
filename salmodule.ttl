@@ -1,0 +1,120 @@
+
+@prefix salmodule: <https://w3id.org/sal/cgs-earth/sal-module#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+
+salmodule: a owl:Ontology ;
+    rdfs:label "SAL Module"@en ;
+    dc:title "The Semantic Accessibility Layer (SAL) Module Ontology"@en ;
+    dc:description "This is the SAL Vocabulary for use in describing semantic accessibility layer module protocol for containerized application logic used in SAL"@en ;
+    dc:creator "Andrew Padilla" ;
+    dc:date "2024-06-01"^^xsd:date ;
+    owl:versionInfo "0.0.1" ;
+    salmodule:baseCommand "salmodule" ;
+    salmodule:ontologyCommand "ontology", "vocabulary", "vocab" ;
+    salmodule:runCommand "run" ; 
+    salmodule:protocolScheme "salmodule" ;
+    salmodule:taskInstanceEnvVar "SALMODULE_TASK_INSTANCE" .
+ 
+salmodule:baseCommand a owl:OntologyProperty ;
+    rdfs:label "Base Command"@en ;
+    rdfs:comment "The base command for all containerized applications that adhere to the SAL Module command line specification"@en ;
+    skos:example "docker run SAL_MODULE_IMAGE <salmodule:baseCommand> <salmodule:ontologyCommand|salmodule:runCommand>" .
+
+salmodule:ontologyCommand a owl:OntologyProperty ;
+    rdfs:label "Ontology Command"@en ;
+    rdfs:comment "Subcommand of <salmodule:baseCommand> used to invoke printing of a SAL containerized application's ontology to stdout in application/ld+json format."@en ;
+    skos:example "docker run SAL_MODULE_IMAGE <salmodule:ontologyCommand>" .
+
+salmodule:runCommand a owl:OntologyProperty ;
+    rdfs:label "Run Command"@en ;
+    rdfs:comment "Subcommand of <salmodule:baseCommand> used to invoke the salmodule:NodeProcessor instance."@en ; 
+    skos:example "docker run SAL_MODULE_IMAGE <salmodule:runCommand>" .
+
+salmodule:protocolScheme a owl:OntologyProperty ;
+    rdfs:label "Protocol Scheme"@en ;
+    rdfs:comment "The protocol scheme used to identify SAL Module resources."@en ;
+    skos:note """Dereferencing an ontology with a SAL protocol scheme involves using the github based protocol 
+    ov to clone the repository, build the container image using the Dockerfile expected in 
+    the base repository directory and run the container using the salmodule:ontologyCommand subcommand."""@en ;           
+    skos:example "salmodule://github.com/owner/repository" .
+
+salmodule:Task a owl:Class ;
+    rdfs:label "Task"@en ;
+    rdfs:comment "A class representing an operational task within a SAL Module containerized application."@en ;
+    skos:example """<salmodule:taskInstanceEnvVar>="<instance of salmodule:Task>" docker run SAL_MODULE_IMAGE <salmodule:runCommand>""" .
+
+salmodule:input a rdf:Property ;
+    rdfs:label "JSON(-LD) Node Input"@en ;
+    rdfs:comment "A property representing the required SHACL sh:NodeShape of the newline delimited JSON node input stream from stdin to a salmodule:Task within a SAL Module containerized application."@en ;
+    skos:note "The input stream is JSON and *not* JSON-LD because salmodule orchestrator uses the salmodule's @context from it's ontology to convert to JSON-LD."@en ;
+    rdfs:range sh:NodeShape .
+
+salmodule:output a rdf:Property ;
+    rdfs:label "JSON(-LD) Node Output"@en ;
+    rdfs:comment "A property representing the required shape(s) of the newline delimited JSON(-LD) node output stream to stdout from a salmodule:Task within a SAL Module containerized application."@en ;
+    rdfs:range sh:NodeShape .
+
+salmodule:self a rdf:Property ;
+    rdfs:label "Self"@en ;
+    rdfs:comment "A property representing the desired shape(s) of the salmodule:Task subclass instance itself."@en ;
+    rdfs:range sh:NodeShape .
+
+salmodule:NodeConsumer a owl:Class ;
+    rdfs:label "Node Consumer"@en ;
+    rdfs:comment "A class representing an entity that consumes JSON(-LD) nodes from the output of a salmodule:Task within a SAL Module containerized application."@en ;
+    owl:equivalentClass [ 
+        a owl:Restriction ; 
+        owl:onProperty salmodule:input ;
+        owl:someValuesFrom sh:NodeShape ;
+    ] .
+
+# Classes for OWL Reasoner to infer NodeProducer, NodeConsumer, and NodeProcessor roles based on input and output properties
+salmodule:NodeProducer a owl:Class ;
+    rdfs:label "Node Producer"@en ;
+    rdfs:comment "A class representing an entity that produces JSON(-LD) nodes from stdin within a SAL Module containerized application."@en ;
+    owl:equivalentClass [ 
+        a owl:Class ; 
+        owl:intersectionOf ( 
+            [ 
+                a owl:Restriction ; 
+                owl:onProperty salmodule:output ;
+                owl:someValuesFrom sh:NodeShape ;
+            ] 
+        ) 
+    ] .
+
+salmodule:NodeConsumer a owl:Class ;
+    rdfs:label "Node Consumer"@en ;
+    rdfs:comment "A class representing an entity that consumes JSON(-LD) nodes from stdin of a salmodule:Task within a SAL Module containerized application."@en ;
+    owl:equivalentClass [ 
+        a owl:Restriction ; 
+        owl:onProperty salmodule:input ;
+        owl:someValuesFrom sh:NodeShape ;
+    ] .
+
+salmodule:NodeProcessor a owl:Class ;
+    rdfs:label "Node Processor"@en ;
+    rdfs:comment "A class representing an entity that both consumes JSON(-LD) nodes from the stdin of a salmodule:Task and produces JSON(-LD) nodes to stdout within a SAL Module containerized application."@en ;
+    owl:equivalentClass [ 
+        a owl:Class ; 
+        owl:intersectionOf ( 
+            [ 
+                a owl:Restriction ; 
+                owl:onProperty salmodule:input ;
+                owl:someValuesFrom sh:NodeShape ;
+            ] 
+            [ 
+                a owl:Restriction ; 
+                owl:onProperty salmodule:output ;
+                owl:someValuesFrom sh:NodeShape ;
+            ] 
+        ) 
+    ] .
