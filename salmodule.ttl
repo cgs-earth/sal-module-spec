@@ -42,14 +42,39 @@ salmodule:protocolScheme a owl:OntologyProperty ;
     rdfs:label "Protocol Scheme"@en ;
     rdfs:comment "The protocol scheme used to identify SAL Module resources."@en ;
     skos:note """Dereferencing an ontology with a SAL protocol scheme involves using the github based protocol 
-    ov to clone the repository, build the container image using the Dockerfile expected in 
+    to clone the repository, build the container image using the Dockerfile expected in 
     the base repository directory and run the container using the salmodule:ontologyCommand subcommand."""@en ;           
     skos:example "salmodule://github.com/owner/repository" .
+
+
+salmodule:Error a owl:Class ;
+    rdfs:label "Error"@en ;
+    rdfs:comment "A class representing an error condition within a salmodule:Task at runtime."@en .
 
 salmodule:Task a owl:Class ;
     rdfs:label "Task"@en ;
     rdfs:comment "A class representing an operational task within a SAL Module containerized application."@en ;
-    skos:example """<salmodule:taskInstanceEnvVar>="<instance of salmodule:Task>" docker run SAL_MODULE_IMAGE <salmodule:runCommand>""" .
+    skos:example """<salmodule:taskInstanceEnvVar>="<instance of salmodule:Task>" docker run SAL_MODULE_IMAGE <salmodule:runCommand>""" ;
+    salmodule:output [
+        # default output of salmodule:Error for all salmodule:Task instances
+        a sh:NodeShape ; 
+        # Error (messages) require rdfs:label and rdfs:comment (description) 
+        sh:targetClass salmodule:Error ;
+        sh:property [
+            sh:path rdfs:label ;
+            sh:minCount 1;
+            sh:message "An rdfs:label is required for salmodule:Error instances"@en ;
+           
+        ] ;
+        sh:property [
+            sh:path rdfs:comment ;
+            sh:minCount 1;
+            sh:message "An rdfs:comment (message) is required for salmodule:Error instances"@en ;
+        ] ;
+    ] . 
+
+
+
 
 salmodule:input a rdf:Property ;
     rdfs:label "JSON(-LD) Node Input"@en ;
