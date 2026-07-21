@@ -136,7 +136,7 @@ salmodule:Task a owl:Class ;
                rdfs:comment "A class representing an operational task within a SAL Module containerized application."@en ;
                rdfs:label "Task"@en ;
                skos:note "SAL Module implementers create subclasses of salmodule:Task to define specific operational tasks within the containerized application."@en ;
-               rdfs:seeAlso salmodule:taskInstanceEnvVar, salmodule:runCommand y;
+               rdfs:seeAlso salmodule:taskInstanceEnvVar, salmodule:runCommand;
                salmodule:output [ a sh:NodeShape ;
                                   sh:property [ sh:message "An rdfs:comment (message) is required for salmodule:Error instances"@en ;
                                                 sh:minCount 1 ;
