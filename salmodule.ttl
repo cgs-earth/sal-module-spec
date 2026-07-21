@@ -1,4 +1,4 @@
-@prefix : <https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#> .
+@prefix salmodule: <https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -8,8 +8,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix schema: <https://schema.org/> .
-@prefix salmodule: <https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#> .
-@base <https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#> .
+
 
 <https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#> a owl:Ontology ;
                                                              dc:creator "Andrew Padilla" ;
