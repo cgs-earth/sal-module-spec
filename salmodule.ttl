@@ -102,28 +102,28 @@ salmodule:outboundEndpoint a rdfs:Datatype ;
 #    Annotation Properties
 #################################################################
 
-###  https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#input
-salmodule:input a owl:AnnotationProperty ;
+###  https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#stdinShape
+salmodule:stdinShape a owl:AnnotationProperty ;
                 rdfs:range sh:NodeShape ;
-                rdfs:comment "A property representing the required SHACL sh:NodeShape(s) of the newline delimited JSON node input stream from stdin to a salmodule:Task within a SAL Module containerized application."@en ;
-                rdfs:label "JSON(-LD) Node Input"@en ;
+                rdfs:comment "An annotation property representing the required SHACL sh:NodeShape(s) of the newline delimited JSON node input stream from stdin to a salmodule:Task within a SAL Module containerized application."@en ;
+                rdfs:label "JSON(-LD) Node stdin SHACL Shape"@en ;
                 skos:note "It is the responsibility of the salmodule:Task subclass implementation to inject its ontology's JSON-LD @context into the JSON input node to resolve to its vocabulary."@en ,
                           "The input stream accepts newline delimited JSON objects (not JSON-LD)."@en .
 
 
-###  https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#output
-salmodule:output a owl:AnnotationProperty ;
+###  https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#stdoutShape
+salmodule:stdoutShape a owl:AnnotationProperty ;
                  rdfs:range sh:NodeShape ;
-                 rdfs:comment "A property representing the required SHACL sh:NodeShape(s) of the newline delimited JSON node output stream to stdout from a salmodule:Task subclass instance within a SAL Module containerized application."@en ;
-                 rdfs:label "JSON(-LD) Node Output"@en ;
+                 rdfs:comment "An annotation property representing the required SHACL sh:NodeShape(s) of the newline delimited JSON node output stream to stdout from a salmodule:Task subclass instance within a SAL Module containerized application."@en ;
+                 rdfs:label "JSON(-LD) Node stdout SHACL Shape"@en ;
                  skos:note "The output stream must produce newline delimited JSON nodes that conform to the specified sh:NodeShape(s) when injected with the JSON-LD @context object defined within the salmodule's ontology."@en .
 
 
-###  https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#self
-salmodule:self a owl:AnnotationProperty ;
+###  https://w3id.org/sal/cgs-earth/sal-module-spec/salmodule#taskShape
+salmodule:taskShape a owl:AnnotationProperty ;
                rdfs:range sh:NodeShape ;
-               rdfs:comment "A property representing the required shape of the salmodule:Task subclass instance itself."@en ;
-               rdfs:label "Self"@en .
+               rdfs:comment "An annotation property representing the required shape of the salmodule:Task subclass instance itself."@en ;
+               rdfs:label "JSON(-LD) Node Task SHACL Shape"@en .
 
 
 #################################################################
